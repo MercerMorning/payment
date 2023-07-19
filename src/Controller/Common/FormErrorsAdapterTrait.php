@@ -2,14 +2,12 @@
 
 namespace App\Controller\Common;
 
-
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
 
-trait ValidationErrorsAdapterTrait
+trait FormErrorsAdapterTrait
 {
-    private function getErrorMessages(FormInterface $form) {
+    private function getErrorMessages(FormInterface $form)
+    {
         $errors = [];
 
         foreach ($form->getErrors() as $error) {

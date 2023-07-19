@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use RuntimeException;
+
 class CountryTaxRateExtractorService
 {
     private array $countryCodeTaxRates = [];
@@ -15,7 +17,7 @@ class CountryTaxRateExtractorService
     public function extract(string $countryCode): float
     {
         if (!isset($this->countryCodeTaxRates[$countryCode])) {
-            throw new \Exception(
+            throw new RuntimeException(
                 'Tax rate for country code:' . $countryCode . ' does not exist'
             );
         }

@@ -1,12 +1,9 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Service;
 
-
 use App\Entity\Coupon;
-use App\Entity\Product;
 use App\Factory\CalculateCouponDiscountStrategyFactory;
 
 class CalculateDiscountService

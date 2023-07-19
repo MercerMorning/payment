@@ -2,39 +2,34 @@
 
 namespace App\Controller\Api\v1;
 
-use App\Controller\Common\ValidationErrorsAdapterTrait;
+use App\Controller\Common\FormErrorsAdapterTrait;
 use App\DTO\PurchaseDTO;
-use App\Factory\CalculateCouponDiscountStrategyFactory;
+use App\Factory\JsonResponseFactory;
 use App\Form\PurchaseType;
 use App\Service\CalculatePurchasePriceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CalculatePriceController extends AbstractController
 {
-    use ValidationErrorsAdapterTrait;
+    use FormErrorsAdapterTrait;
     private FormFactoryInterface $formFactory;
     private CalculatePurchasePriceService $calculatePurchaseService;
-
-    private CalculateCouponDiscountStrategyFactory $factory;
+    private JsonResponseFactory $jsonResponseFactory;
 
     /**
      * @param FormFactoryInterface $formFactory
      * @param CalculatePurchasePriceService $calculatePurchaseService
+     * @param JsonResponseFactory $jsonResponseFactory
      */
-    public function __construct(
-        FormFactoryInterface $formFactory,
-        CalculatePurchasePriceService $calculatePurchaseService,
-        CalculateCouponDiscountStrategyFactory $factory
-    )
+    public function __construct(FormFactoryInterface $formFactory, CalculatePurchasePriceService $calculatePurchaseService, JsonResponseFactory $jsonResponseFactory)
     {
         $this->formFactory = $formFactory;
         $this->calculatePurchaseService = $calculatePurchaseService;
-        $this->factory = $factory;
+        $this->jsonResponseFactory = $jsonResponseFactory;
     }
 
 
@@ -45,17 +40,11 @@ class CalculatePriceController extends AbstractController
         $form = $this->formFactory->create(PurchaseType::class, new PurchaseDTO());
         $form->submit($data);
         if (!$form->isValid()) {
-            return $this->json([
-                'message' => 'fail',
-                'errors' => $this->getErrorMessages($form)
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->jsonResponseFactory->fail($this->getErrorMessages($form));
         }
         $amount = $this->calculatePurchaseService->calculate($form->getData());
-        return $this->json([
-            'message' => 'ok',
-            'data' => [
-                'amount' => $amount
-            ]
-        ], Response::HTTP_CREATED);
+        return $this->jsonResponseFactory->success([
+            'amount' => $amount
+        ]);
     }
 }

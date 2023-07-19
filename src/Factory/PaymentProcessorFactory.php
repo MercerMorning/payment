@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use App\Adapter\PaymentProcessorAdapterInterface;
+use RuntimeException;
 
 class PaymentProcessorFactory
 {
@@ -17,7 +18,7 @@ class PaymentProcessorFactory
     public function getByType(string $type) :PaymentProcessorAdapterInterface
     {
         if (!isset($this->typePaymentProcessor[$type])) {
-            throw new \Exception('Processor for ' . $type . ' does not exist');
+            throw new RuntimeException('Processor for ' . $type . ' does not exist');
         }
         return $this->typePaymentProcessor[$type];
     }

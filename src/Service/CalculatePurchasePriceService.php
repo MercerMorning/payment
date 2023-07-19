@@ -7,6 +7,7 @@ use App\DTO\PurchaseDTO;
 use App\Factory\PaymentProcessorFactory;
 use App\Manager\CouponManager;
 use App\Manager\ProductManager;
+use Doctrine\ORM\EntityNotFoundException;
 
 class CalculatePurchasePriceService
 {
@@ -39,6 +40,9 @@ class CalculatePurchasePriceService
     }
 
 
+    /**
+     * @throws EntityNotFoundException
+     */
     public function calculate(PurchaseDTO $purchase) :float
     {
         $product = $this->productManager->getProductById((int) $purchase->product);

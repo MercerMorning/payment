@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Strategy;
 
+use InvalidArgumentException;
 
 class CalculateFixedCouponDiscountStrategy implements CalculateCouponDiscountStrategyInterface
 {
@@ -11,7 +11,7 @@ class CalculateFixedCouponDiscountStrategy implements CalculateCouponDiscountStr
     {
         $result = $amount - $discountValue;
         if ($result < 0) {
-            throw new \Exception('Amount below a zero');
+            throw new InvalidArgumentException('Amount below a zero');
         }
         return $result;
     }

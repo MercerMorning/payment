@@ -2,11 +2,11 @@
 
 namespace App\Controller\Api\v1;
 
-use App\Controller\Common\ValidationErrorsAdapterTrait;
+use App\Controller\Common\FormErrorsAdapterTrait;
 use App\DTO\PurchaseDTO;
 use App\Factory\CalculateCouponDiscountStrategyFactory;
+use App\Factory\JsonResponseFactory;
 use App\Form\PurchaseType;
-use App\Service\CalculatePurchasePriceService;
 use App\Service\MakePurchasePriceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -17,43 +17,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PurchaseController extends AbstractController
 {
-    use ValidationErrorsAdapterTrait;
+    use FormErrorsAdapterTrait;
     private FormFactoryInterface $formFactory;
     private MakePurchasePriceService $makePurchasePriceService;
-
-    private CalculateCouponDiscountStrategyFactory $factory;
+    private JsonResponseFactory $jsonResponseFactory;
 
     /**
      * @param FormFactoryInterface $formFactory
      * @param MakePurchasePriceService $makePurchasePriceService
+     * @param JsonResponseFactory $jsonResponseFactory
      */
-    public function __construct(
-        FormFactoryInterface $formFactory,
-        MakePurchasePriceService $makePurchasePriceService,
-        CalculateCouponDiscountStrategyFactory $factory
-    )
+    public function __construct(FormFactoryInterface $formFactory, MakePurchasePriceService $makePurchasePriceService, JsonResponseFactory $jsonResponseFactory)
     {
         $this->formFactory = $formFactory;
         $this->makePurchasePriceService = $makePurchasePriceService;
-        $this->factory = $factory;
+        $this->jsonResponseFactory = $jsonResponseFactory;
     }
 
-
-    #[Route('/api/v1/calculate-price', name: 'app_api_v1_calculate_price')]
+    #[Route('/api/v1/purchase', name: 'app_api_v1_purchase')]
     public function index(Request $request): JsonResponse
     {
         $data = $request->request->all();
         $form = $this->formFactory->create(PurchaseType::class, new PurchaseDTO());
         $form->submit($data);
         if (!$form->isValid()) {
-            return $this->json([
-                'message' => 'fail',
-                'errors' => $this->getErrorMessages($form)
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->jsonResponseFactory->fail($this->getErrorMessages($form));
         }
         $this->makePurchasePriceService->make($form->getData());
-        return $this->json([
-            'message' => 'ok'
-        ], Response::HTTP_CREATED);
+        return $this->jsonResponseFactory->success();
     }
 }

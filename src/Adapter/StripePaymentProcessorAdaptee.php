@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Adapter;
 
 use App\PaymentProcessor\StripePaymentProcessor;
+use InvalidArgumentException;
 
 class StripePaymentProcessorAdaptee implements PaymentProcessorAdapterInterface
 {
@@ -22,7 +23,7 @@ class StripePaymentProcessorAdaptee implements PaymentProcessorAdapterInterface
     {
         $succeed = $this->object->processPayment($price);
         if (!$succeed) {
-            throw new \Exception('Too low price');
+            throw new InvalidArgumentException('Too low price');
         }
     }
 }

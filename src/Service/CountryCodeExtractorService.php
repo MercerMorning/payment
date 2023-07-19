@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use RuntimeException;
+
 class CountryCodeExtractorService
 {
     private array $taxNumberRegexCountryCode = [];
@@ -19,7 +21,7 @@ class CountryCodeExtractorService
                 return $countryCode;
             }
         }
-        throw new \Exception(
+        throw new RuntimeException(
             'Country code for tax number:' . $taxNumber . ' does not exist'
         );
     }

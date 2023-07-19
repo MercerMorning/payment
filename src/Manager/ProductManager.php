@@ -20,13 +20,16 @@ class ProductManager
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @throws EntityNotFoundException
+     */
     public function getProductById(int $id) :Product
     {
         /** @var ProductRepository $productRepository */
         $productRepository = $this->entityManager->getRepository(Product::class);
         $product = $productRepository->find($id);
         if ($product === null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException('Product with id: ' . $id . ' not found');
         }
         return $productRepository->find($id);
     }
