@@ -22,3 +22,28 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    App\Factory\CalculateCouponDiscountStrategyFactory:
+        calls:
+            - [ addCalculateCouponDiscountStrategy, [ 'fixed', '@App\Strategy\CalculateFixedCouponDiscountStrategy' ] ]
+            - [ addCalculateCouponDiscountStrategy, [ 'percent', '@App\Strategy\CalculatePercentCouponDiscountStrategy' ] ]
+
+    App\Factory\PaymentProcessorFactory:
+        calls:
+            - [ addTypePaymentProcessor, [ 'paypal', '@App\Adapter\PaypalPaymentProcessorAdaptee' ] ]
+            - [ addTypePaymentProcessor, [ 'stripe', '@App\Adapter\StripePaymentProcessorAdaptee' ] ]
+
+    App\Service\CountryCodeExtractorService:
+        calls:
+            - [ addTaxNumberRegexCountry, [ '#^DE\d{9}$#', 'DE' ] ]
+            - [ addTaxNumberRegexCountry, [ '#^IT\d{10}$#', 'IT' ] ]
+            - [ addTaxNumberRegexCountry, [ '#^GR\d{9}$#', 'GR' ] ]
+            - [ addTaxNumberRegexCountry, [ '#^FR[a-zA-Z]{2}\d{9}$#', 'FR' ] ]
+
+    App\Service\CountryTaxRateExtractorService:
+        calls:
+            - [ addCountryTaxRate, [ 'DE', '19' ] ]
+            - [ addCountryTaxRate, [ 'IT', '22' ] ]
+            - [ addCountryTaxRate, [ 'GR', '24' ] ]
+            - [ addCountryTaxRate, [ 'FR', '20' ] ]
