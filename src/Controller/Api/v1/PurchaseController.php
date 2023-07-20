@@ -8,6 +8,7 @@ use App\Factory\CalculateCouponDiscountStrategyFactory;
 use App\Factory\JsonResponseFactory;
 use App\Form\PurchaseType;
 use App\Service\MakePurchasePriceService;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,10 +35,14 @@ class PurchaseController extends AbstractController
         $this->jsonResponseFactory = $jsonResponseFactory;
     }
 
+    /**
+     * @throws \JsonException
+     * @throws EntityNotFoundException
+     */
     #[Route('/api/v1/purchase', name: 'app_api_v1_purchase')]
     public function index(Request $request): JsonResponse
     {
-        $data = $request->request->all();
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $form = $this->formFactory->create(PurchaseType::class, new PurchaseDTO());
         $form->submit($data);
         if (!$form->isValid()) {

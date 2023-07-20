@@ -10,7 +10,11 @@ class JsonResponseFactory
 {
     public function success(array $data = []) :JsonResponse
     {
-        return new JsonResponse(['message' => 'ok', 'data' => $data],Response::HTTP_CREATED);
+        $responseData = ['message' => 'ok'];
+        if ($data !== []) {
+            $responseData['data'] = $data;
+        }
+        return new JsonResponse($responseData,Response::HTTP_CREATED);
     }
 
     public function fail(array $errors) :JsonResponse

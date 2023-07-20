@@ -7,6 +7,7 @@ use App\DTO\PurchaseDTO;
 use App\Factory\JsonResponseFactory;
 use App\Form\PurchaseType;
 use App\Service\CalculatePurchasePriceService;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,10 +34,14 @@ class CalculatePriceController extends AbstractController
     }
 
 
+    /**
+     * @throws \JsonException
+     * @throws EntityNotFoundException
+     */
     #[Route('/api/v1/calculate-price', name: 'app_api_v1_calculate_price')]
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
-        $data = $request->request->all();
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $form = $this->formFactory->create(PurchaseType::class, new PurchaseDTO());
         $form->submit($data);
         if (!$form->isValid()) {

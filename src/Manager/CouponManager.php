@@ -26,7 +26,7 @@ class CouponManager
         $couponRepository = $this->entityManager->getRepository(Coupon::class);
         $coupon = $couponRepository->findOneByCode($code);
         if ($coupon === null) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException('Coupon with code: ' . $code . ' not found');
         }
         return $coupon;
     }
