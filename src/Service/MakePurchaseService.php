@@ -6,7 +6,7 @@ namespace App\Service;
 use App\DTO\PurchaseDTO;
 use App\Factory\PaymentProcessorFactory;
 
-class MakePurchasePriceService
+class MakePurchaseService
 {
     private readonly CalculatePurchasePriceService $calculatePurchasePriceService;
     private readonly PaymentProcessorFactory $paymentProcessorFactory;

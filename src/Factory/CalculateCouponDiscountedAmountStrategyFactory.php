@@ -6,7 +6,7 @@ namespace App\Factory;
 use App\Strategy\CalculateCouponDiscountStrategyInterface;
 use RuntimeException;
 
-class CalculateCouponDiscountStrategyFactory
+class CalculateCouponDiscountedAmountStrategyFactory
 {
     private array $typeCalculateCouponDiscountStrategies = [];
 

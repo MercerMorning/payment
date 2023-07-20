@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Coupon;
-use App\Factory\CalculateCouponDiscountStrategyFactory;
+use App\Factory\CalculateCouponDiscountedAmountStrategyFactory;
 
-class CalculateDiscountService
+class CalculateDiscountedAmountService
 {
-    private CalculateCouponDiscountStrategyFactory $calculateCouponDiscountStrategyFactory;
+    private CalculateCouponDiscountedAmountStrategyFactory $calculateCouponDiscountStrategyFactory;
 
     /**
-     * @param CalculateCouponDiscountStrategyFactory $calculateCouponDiscountStrategyFactory
+     * @param CalculateCouponDiscountedAmountStrategyFactory $calculateCouponDiscountStrategyFactory
      */
-    public function __construct(CalculateCouponDiscountStrategyFactory $calculateCouponDiscountStrategyFactory)
+    public function __construct(CalculateCouponDiscountedAmountStrategyFactory $calculateCouponDiscountStrategyFactory)
     {
         $this->calculateCouponDiscountStrategyFactory = $calculateCouponDiscountStrategyFactory;
     }

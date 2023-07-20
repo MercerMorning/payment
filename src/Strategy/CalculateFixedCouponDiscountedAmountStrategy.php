@@ -5,7 +5,7 @@ namespace App\Strategy;
 
 use InvalidArgumentException;
 
-class CalculateFixedCouponDiscountStrategy implements CalculateCouponDiscountStrategyInterface
+class CalculateFixedCouponDiscountedAmountStrategy implements CalculateCouponDiscountStrategyInterface
 {
     public function calculate(float $amount, float $discountValue): float
     {

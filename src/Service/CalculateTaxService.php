@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Product;
-
 class CalculateTaxService
 {
     private CountryCodeExtractorService $countryExtractorService;
@@ -24,6 +22,6 @@ class CalculateTaxService
     {
         $countryCode = $this->countryExtractorService->extract($taxNumber);
         $taxRate = $this->countryTaxRateExtractorService->extract($countryCode);
-        return $amount + ($amount / 100 * $taxRate);
+        return $amount / 100 * $taxRate;
     }
 }

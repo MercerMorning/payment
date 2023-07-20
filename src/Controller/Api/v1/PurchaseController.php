@@ -1,34 +1,33 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Api\v1;
 
 use App\Controller\Common\FormErrorsAdapterTrait;
 use App\DTO\PurchaseDTO;
-use App\Factory\CalculateCouponDiscountStrategyFactory;
 use App\Factory\JsonResponseFactory;
 use App\Form\PurchaseType;
-use App\Service\MakePurchasePriceService;
+use App\Service\MakePurchaseService;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PurchaseController extends AbstractController
 {
     use FormErrorsAdapterTrait;
     private FormFactoryInterface $formFactory;
-    private MakePurchasePriceService $makePurchasePriceService;
+    private MakePurchaseService $makePurchasePriceService;
     private JsonResponseFactory $jsonResponseFactory;
 
     /**
      * @param FormFactoryInterface $formFactory
-     * @param MakePurchasePriceService $makePurchasePriceService
+     * @param MakePurchaseService $makePurchasePriceService
      * @param JsonResponseFactory $jsonResponseFactory
      */
-    public function __construct(FormFactoryInterface $formFactory, MakePurchasePriceService $makePurchasePriceService, JsonResponseFactory $jsonResponseFactory)
+    public function __construct(FormFactoryInterface $formFactory, MakePurchaseService $makePurchasePriceService, JsonResponseFactory $jsonResponseFactory)
     {
         $this->formFactory = $formFactory;
         $this->makePurchasePriceService = $makePurchasePriceService;

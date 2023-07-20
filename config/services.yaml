@@ -27,10 +27,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    App\Factory\CalculateCouponDiscountStrategyFactory:
+    App\Factory\CalculateCouponDiscountedAmountStrategyFactory:
         calls:
-            - [ addCalculateCouponDiscountStrategy, [ 'fixed', '@App\Strategy\CalculateFixedCouponDiscountStrategy' ] ]
-            - [ addCalculateCouponDiscountStrategy, [ 'percent', '@App\Strategy\CalculatePercentCouponDiscountStrategy' ] ]
+            - [ addCalculateCouponDiscountStrategy, [ 'fixed', '@App\Strategy\CalculateFixedCouponDiscountedAmountStrategy' ] ]
+            - [ addCalculateCouponDiscountStrategy, [ 'percent', '@App\Strategy\CalculatePercentCouponDiscountedAmountStrategy' ] ]
 
     App\Factory\PaymentProcessorFactory:
         calls:
