@@ -14,7 +14,7 @@ class JsonResponseFactory
         if ($data !== []) {
             $responseData['data'] = $data;
         }
-        return new JsonResponse($responseData,Response::HTTP_CREATED);
+        return new JsonResponse($responseData,Response::HTTP_OK);
     }
 
     public function fail(array $errors) :JsonResponse
