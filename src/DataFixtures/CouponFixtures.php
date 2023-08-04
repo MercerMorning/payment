@@ -15,12 +15,12 @@ class CouponFixtures extends Fixture
             [
                 'code' => 'D15',
                 'type' => 'percent',
-                'value' => '6',
+                'value' => 6,
             ],
             [
                 'code' => 'D16',
                 'type' => 'fixed',
-                'value' => '35',
+                'value' => 35,
             ]
         ];
         foreach ($coupons as $couponData) {

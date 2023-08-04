@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Validator\EntityExist;
+use App\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;
 class PurchaseDTO
 {
     public function __construct(
         #[Assert\NotBlank]
+        #[EntityExist(entity: Product::class)]
         public string $product = '',
 
         #[Assert\NotBlank]
